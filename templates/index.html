@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guess Game</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding-top: 100px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: #00e676;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎮 Guess the Number (1–10)</h1>
+
+    <form method="POST">
+        <input type="number" name="guess" required>
+        <br><br>
+        <button type="submit">Guess</button>
+    </form>
+
+    <h2>{{ message }}</h2>
+
+</body>
+</html>
