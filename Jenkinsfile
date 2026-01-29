@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
+                git branch: 'main',
+                    git 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
             }
         }
 
