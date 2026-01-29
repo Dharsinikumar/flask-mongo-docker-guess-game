@@ -2,24 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    git 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
+                    url: 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-app .'
+                sh 'docker build -t flask-guess-game .'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh 'docker stop flask-app || true'
-                sh 'docker rm flask-app || true'
-                sh 'docker run -d -p 5000:5000 --name flask-app flask-app'
+                sh '''
+                docker rm -f flask-guess-game || true
+                docker run -d -p 5000:5000 --name flask-guess-game flask-guess-game
+                '''
             }
         }
     }
