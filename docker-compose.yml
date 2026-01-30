@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   app:
     build: .
@@ -6,6 +8,9 @@ services:
       - "5000:5000"
     depends_on:
       - mongodb
+    environment:
+      - MONGO_URI=mongodb://admin:admin123@mongodb:27017
+    restart: unless-stopped
 
   mongodb:
     image: mongo:6.0
@@ -15,3 +20,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: admin123
     ports:
       - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

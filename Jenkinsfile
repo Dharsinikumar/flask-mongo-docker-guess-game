@@ -8,20 +8,22 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build & Start Containers') {
             steps {
-                sh 'docker build -t flask-guess-game .'
+                sh '''
+                # Stop and remove old containers if they exist
+                docker-compose down
+
+                # Build images and start containers in detached mode
+                docker-compose up -d --build
+                '''
             }
         }
 
-        stage('Run Container') {
+        stage('Verify') {
             steps {
-                sh '''
-                docker rm -f flask-guess-game || true
-                docker run -d -p 5000:5000 --name flask-guess-game flask-guess-game
-                '''
+                sh 'docker ps'  # Optional: see running containers
             }
         }
     }
 }
-
