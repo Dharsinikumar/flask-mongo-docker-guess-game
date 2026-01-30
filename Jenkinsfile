@@ -1,24 +1,41 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_COMPOSE_FILE = "docker-compose.yml"
+    }
+
     stages {
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                sh 'docker build -t flask-guess-game .'
+                git branch: 'main', url: 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
             }
         }
 
-        stage('Run Containers') {
+        stage('Build & Up Docker') {
             steps {
-                sh '''
-                docker rm -f flask-guess-game || true
-                docker rm -f mongodb || true
-
-                docker run -d --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo:6.0
-
-                docker run -d --name flask-guess-game --link mongodb:mongodb -p 5000:5000 -e MONGO_URI=mongodb://admin:admin123@mongodb:27017 flask-guess-game
-                '''
+                script {
+                    sh 'docker-compose -f $DOCKER_COMPOSE_FILE up --build -d'
+                }
             }
+        }
+
+        stage('Health Check') {
+            steps {
+                script {
+                    sh '''
+                        echo "Waiting 20s for Mongo & Flask to start..."
+                        sleep 20
+                        docker ps
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished!'
         }
     }
 }
