@@ -2,27 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Build Docker Image') {
             steps {
-                checkout scm
+                sh 'docker build -t flask-guess-game .'
             }
         }
 
-        stage('Build & Start Containers') {
+        stage('Run Containers') {
             steps {
                 sh '''
-                # Stop and remove old containers if they exist
-                docker-compose down
+                docker rm -f flask-guess-game || true
+                docker rm -f mongodb || true
 
-                # Build images and start containers in detached mode
-                docker-compose up -d --build
+                docker run -d --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin123 mongo:6.0
+
+                docker run -d --name flask-guess-game --link mongodb:mongodb -p 5000:5000 -e MONGO_URI=mongodb://admin:admin123@mongodb:27017 flask-guess-game
                 '''
-            }
-        }
-
-        stage('Verify') {
-            steps {
-                sh 'docker ps'  # Optional: see running containers
             }
         }
     }
