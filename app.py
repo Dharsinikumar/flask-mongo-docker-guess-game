@@ -1,10 +1,13 @@
+import os
 from flask import Flask, render_template, request
 from pymongo import MongoClient
 import random
 
 app = Flask(__name__)
 
-client = MongoClient("mongodb://admin:admin123@mongodb:27017/")
+# Use environment variable for MongoDB URI, fallback to default for local testing
+mongo_uri = os.environ.get("MONGO_URI", "mongodb://admin:admin123@mongodb:27017/")
+client = MongoClient(mongo_uri)
 db = client.guessdb
 collection = db.guesses
 
