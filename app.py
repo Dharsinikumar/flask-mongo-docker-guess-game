@@ -34,11 +34,11 @@ def home():
             print("Inserted into Mongo")
 
             if guess_int == SECRET_NUMBER:
-                message = "🎉 Correct!"
+                message = "🎉 Correct!!"
             elif guess_int < SECRET_NUMBER:
-                message = "📉 Too low!"
+                message = "📉 Too low!!"
             else:
-                message = "📈 Too high!"
+                message = "📈 Too high!!"
 
         except Exception as e:
             print("ERROR:", e)
