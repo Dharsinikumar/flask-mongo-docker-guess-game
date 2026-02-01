@@ -6,7 +6,7 @@ import random
 app = Flask(__name__)
 
 # Use environment variable for MongoDB URI, fallback to default for local testing
-mongo_uri = os.environ.get("MONGO_URI", "mongodb://admin:admin123@mongodb:27017/")
+mongo_uri = os.environ.get("MONGO_URI", "mongodb://admin:admin123@mongodb:27017/gameDB?authSource=admin")
 client = MongoClient(mongo_uri)
 db = client.guessdb
 collection = db.guesses

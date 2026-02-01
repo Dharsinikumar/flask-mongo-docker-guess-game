@@ -1,20 +1,20 @@
-version: '3'
 services:
-  flask-app:
-    build: .
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mongodb
-    environment:
-      - MONGO_URI=mongodb://mongodb:27017/mydatabase
-
   mongodb:
-    image: mongo:latest
+    image: mongo:6
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: gameDB
     ports:
       - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
 
-volumes:
-  mongo-data:
+  app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: "mongodb://admin:admin123@mongodb:27017/gameDB?authSource=admin"
+    depends_on:
+      - mongodb
