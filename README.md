@@ -20,4 +20,4 @@ containerized using Docker and Docker Compose.
 ```bash
 docker compose up --build
 Auto trigger test
-check.
+check..
