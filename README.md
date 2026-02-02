@@ -21,3 +21,4 @@ containerized using Docker and Docker Compose.
 docker compose up --build
 Auto testing.
 
+testing
