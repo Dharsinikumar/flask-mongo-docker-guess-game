@@ -19,4 +19,5 @@ containerized using Docker and Docker Compose.
 ## How to Run
 ```bash
 docker compose up --build
-Auto testing.
+auto trigger testing.
+auto trigger testing.
