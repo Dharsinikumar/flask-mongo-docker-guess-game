@@ -19,7 +19,5 @@ containerized using Docker and Docker Compose.
 ## How to Run
 ```bash
 docker compose up --build
-Auto trigger test
-check.......
-."webhook test" .....
-......
+Auto testing.
+
