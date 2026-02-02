@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mongodb:
     image: mongo:6
@@ -18,3 +20,4 @@ services:
       MONGO_URI: "mongodb://admin:admin123@mongodb:27017/gameDB?authSource=admin"
     depends_on:
       - mongodb
+
