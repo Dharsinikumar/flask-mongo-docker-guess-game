@@ -20,4 +20,3 @@ services:
       MONGO_URI: "mongodb://admin:admin123@mongodb:27017/gameDB?authSource=admin"
     depends_on:
       - mongodb
-
