@@ -1,41 +1,26 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_COMPOSE_FILE = "docker-compose.yml"
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Clone Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/Dharsinikumar/flask-mongo-docker-guess-game.git'
             }
         }
 
-        stage('Build & Up Docker') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker-compose -f $DOCKER_COMPOSE_FILE up --build -d'
-                }
+                sh 'docker build -t flask-app .'
             }
         }
 
-        stage('Health Check') {
+        stage('Run Container') {
             steps {
-                script {
-                    sh '''
-                        echo "Waiting 20s for Mongo & Flask to start..."
-                        sleep 20
-                        docker ps
-                    '''
-                }
+                sh '''
+                docker rm -f flask-container || true
+                docker run -d -p 5000:5000 --name flask-container flask-app
+                '''
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished!'
         }
     }
 }
